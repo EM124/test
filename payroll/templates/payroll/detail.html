@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% include 'base/css.html' %} 
+{% block content %}
+<!-- <div style='font-size:10px;'> -->
+	<div class='row'>
+		<div class='col-lg-12'>
+			<div class="form-group">
+				<form  method='POST' action='/payrolls/delete-payroll/{{payroll.id}}/'  > {% csrf_token %}
+				<button style="width:100%;margin-bottom:2%;" type="submit" class="col-lg-2 btn btn-success mx-auto float-right" role="button">Delete Payroll</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class='row'>
+		<p class='lead col-lg-2' style='width:100%;'>Bank Account</p>
+		<select class="select-user col-lg-4 form-control" name="bank_id" style="overflow-y: scroll;">
+			{% for bank in banks %}
+			<option value="{{bank.title}}" {% if bank.account_type == "Checking" %}selected{% endif %}>{{bank.title}}</option>
+			{% endfor %}
+		</select>	
+		<p class='lead col-lg-3 float-right offset-1'>Ending Balance</p>
+		<strong class='lead col-lg-1 float-right'>0</strong>
+	</div>
+	<div class='row'>
+		<div class='form-group' style='width:100%;'>
+		<p class='lead' >Earnings</p>
+		<hr/>
+		<div class='row'>
+			<div class='col-3'>
+				<div class="form-group">
+					<input type="rate" class="input-sm form-control" id="rate" placeholder="rate" style='width:100%;'>
+				</div>
+			</div>
+			<div class='col-3'>
+				<div class="form-group">
+					<input type="hours" class="input-sm form-control" id="hours" placeholder="hours" style='width:100%;'>
+				</div>
+			</div>
+			<div class='col-3'>
+				<div class="form-group">
+					<input type="vacationAccrued" class="input-sm form-control" id="vacationAccrued" placeholder="vacation acc ($)" style='width:100%;' readonly>
+				</div>
+
+			</div>
+			<div class='col-3'>
+				<div class="form-group">
+					<input type="vacationAvailable" class="input-sm form-control" id="vacationAvailable" placeholder="vacation avail ($)" style='width:100%;' readonly>
+				</div>
+			</div>
+		</div>
+		</div>
+		<div class="container col-12">
+			<div class='row'>
+				<div class='col-6'>
+					<p class='lead'>Company Summary</p>
+					<table class="table table-hover table-sm">
+						<thead>
+							<tr>
+								<th scope="col">Item Name</th>
+								<th scope="col">Amount</th>
+								<th scope="col">YTD</th>
+							</tr>
+						</thead>
+						<tbody class='company_table'>							
+						</tbody>
+					</table>
+				</div>
+				<div class='col-6'>
+					<p class='lead'>Employee Summary</p>
+					<table class="table table-hover table-sm">
+						<thead>
+							<tr>
+								<th scope="col">Item Name</th>
+								<th scope="col">Amount</th>
+								<th scope="col">YTD</th>
+							</tr>
+						</thead>
+						<tbody class='employee_table'>	
+						</tbody>
+					</table>
+					<div class='col-12'>
+						<div class='row'>
+							<div class='col-6'>
+								Cheque Amount
+							</div>
+							<div class='col-6'>
+								<div class="form-group">
+									<input type='text' class="input-sm cheque_amount form-control">
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<div class='row'>
+			<div class='col-lg-6'>
+				<p class='lead'>Payement</p>
+				<div class='payement' style='padding-bottom:400%;'>
+				</div>
+			</div>
+		</div>
+		<!-- </div> -->
+		{% endblock %}

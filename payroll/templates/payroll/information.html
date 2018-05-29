@@ -1,0 +1,234 @@
+{% extends "base.html" %}
+{% include 'base/css.html' %} 
+{% block content %}
+<div class='row'>
+	<div class='col-lg-12'>
+		<div class='col-lg-4 float-left'>
+			<p class='lead'>Users</p>
+			<hr/>
+			<input class='form-control' type='text' id='filter' placeholder="search" style="margin-bottom: 20px;"/>
+			<!-- height:75vh; -->
+			<div style="overflow-y: auto;">
+				<table class="user-payroll-table table table-bordered">
+					<tbody>
+						{% for user in Users %}
+						{% if user.admin == False and user.parent == False %}
+						<tr>
+							<td name='{{user.id}}'>{{ user.adult_first_name}} {{user.adult_last_name}}: {% if user.manager %}manager{% elif user.employee %}employee{% else %}parent{% endif %}</td>
+						</tr>
+						{% endif %}
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<div class='col-lg-8 float-right'>
+			<div class='row'>
+				<div class='col-lg-12'>
+					<p class='lead'>User Information</p>
+					<hr/>
+
+					<div class='form-control'>
+						<div class='row'>
+							<div class='col-lg-6'>
+								<label style='margin-bottom: 10px;'>Full Name:</label>
+								<address class='parent-full-name'></address>
+								<label>Children:</label>
+								<address class='child-full-name'></address>
+							</div>
+							<div class='col-lg-6'>
+								<label style='margin-bottom: 10px;'>Address:</label>
+
+								<address class='user-address'>
+								</address>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class='row' style='margin-top:2%;'>
+					<div class='col-lg-12'>
+						<div class='row'>
+							<div class='col-lg-6'>
+								<p class='lead' style='display: inline-block;'>Payroll User Information</p>
+							</div>
+							<div class='col-lg-3'>
+								<button type='text' data-toggle="modal" data-target="#payroll-modal" class='add-payroll btn btn-success mx-auto text-center' style='display: inline-block;'>Add Payroll</button>
+							</div>
+							<hr/>
+						</div>
+						<div class='form-control'>
+						<div class='row'>
+							<div class="table-responsive">
+							<table class="table payroll_table">
+								<thead>
+									<tr>
+										<th scope="col">From</th>
+										<th scope="col">To</th>
+										<th scope="col">Payed</th>
+										<th scope="col"></th>
+										<th scope="col"></th>
+									</tr>
+								</thead>
+								<tbody id="payroll-body-list">
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			</div>
+
+
+
+
+
+		</div>
+	</div>
+	<!-- line modal -->
+	<form method='POST' action='/payrolls/add-payroll/'>
+		<div class="modal fade" id="payroll-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<div class="container col-md-12">
+							<div class='row'>
+								<div class='col-3'>
+									<p class="adult_full_name"></p>
+									<!--{{user.adult_first_name}} {{user.adult_last_name}} -->
+								</div>
+								<div class='col-3'>
+									{{dates.date}} 
+								</div>
+								<div class='col-3'>
+									{{dates.date2}}
+								</div>
+								<div class='col-3'>
+									<button type="button" id="refresh-payroll" class="btn btn-default" data-action="save" role="button">Refresh</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-body">
+
+						<form>
+							<div class="container col-12">
+								<p class='lead'>Earnings</p>
+								<hr/>
+								<div class='row'>
+									<div class='col-3'>
+										<div class="form-group">
+											<input type="text" class="input-sm form-control" id="rate" placeholder="rate">
+										</div>
+									</div>
+									<div class='col-3'>
+										<div class="form-group">
+											<input type="text" class="input-sm form-control" id="hours" placeholder="hours">
+										</div>
+									</div>
+									<div class='col-3'>
+										<div class="form-group">
+											<input type="text" class="input-sm form-control" id="vacationAccrued" placeholder="vacation acc ($)" readonly>
+										</div>
+
+									</div>
+									<div class='col-3'>
+										<div class="form-group">
+											<input type="text" class="input-sm form-control" id="vacationAvailable" placeholder="vacation avail ($)" readonly>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="container col-12">
+								<div class='row'>
+									<div class='col-6'>
+										<p class='lead'>Company Summary</p>
+										<table class="table table-hover table-sm">
+											<thead>
+												<tr>
+													<th scope="col">Item Name</th>
+													<th scope="col">Amount</th>
+													<th scope="col">YTD</th>
+												</tr>
+											</thead>
+											<tbody class='company_table'>
+												
+											</tbody>
+										</table>
+									</div>
+									<div class='col-6'>
+										<p class='lead'>Employee Summary</p>
+										<table class="table table-hover table-sm">
+											<thead>
+												<tr>
+													<th scope="col">Item Name</th>
+													<th scope="col">Amount</th>
+													<th scope="col">YTD</th>
+												</tr>
+											</thead>
+											<tbody class='employee_table'>
+											</tbody>
+										</table>
+										<div class='col-12'>
+											<div class='row'>
+												<div class='col-6'>
+													Cheque Amount
+												</div>
+												<div class='col-6'>
+													<div class="form-group">
+														<input type='text' class="input-sm cheque_amount form-control">
+													</div>
+												</div>
+											</div>
+										</div>
+
+									</div>
+								</div>
+							</div>
+<!-- 							<div class="form-group">
+								<label for="exampleInputPassword1">Password</label>
+								<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+							</div>
+							<div class="form-group">
+								<label for="exampleInputFile">File input</label>
+								<input type="file" id="exampleInputFile">
+								<p class="help-block">Example block-level help text here.</p>
+							</div>
+							<div class="checkbox">
+								<label>
+									<input type="checkbox"> Check me out
+								</label>
+							</div>
+							<button type="submit" class="btn btn-default">Submit</button> -->
+						</form>
+
+					</div> 
+					<div class="modal-footer">
+
+						<div class="container col-lg-12">
+							<div class='row'>
+								<div class='col-lg-3'>
+								</div>
+								<div class='col-lg-3 '>
+									<div class="form-group">
+									<button style="width:100%" type="button" id="savePayroll" class="btn btn-default" data-action="save" role="button">Save Payroll</button>
+									</div>
+								</div>
+
+							
+								<div class='col-lg-3'>
+									<div class="form-group">
+									<button style="width:100%" type="button" class="btn btn-default" data-dismiss="modal" role="button">Close</button>
+									</div>
+								</div>
+								<div class='col-lg-3'>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+	{% endblock %}

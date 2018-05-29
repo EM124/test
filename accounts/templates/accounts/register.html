@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class='row'>
+	<div class="col-lg-12" style='margin-bottom: 40px' >
+		<div class='form-group '>
+			<p class='lead'>Update User</p>
+			<hr/>
+			<select class="select-user col-lg-4 form-control" name="user_id" style="overflow-y: scroll;" onchange="location = this.value;">
+				<option value="None">please select a user</option>
+				{% for objects in instance %}
+				<option value="{{ objects.get_absolute_url }}">{{objects.adult_first_name}} {{objects.adult_last_name}} : {{ objects.email}}</option>
+				{% endfor %}
+			</select>
+			<hr/>
+		</div>
+	</div>
+</div>
+<div class='row'>
+
+	<div class="col-lg-12" >
+			<p class='lead'>Create User</p>
+			<hr/>
+		<form  method='POST' > {% csrf_token %}
+			<select class="selectedChoice col-lg-4 choices mx-auto text-center form-control" name="choices">
+				<option value="None">please select a user type</option>
+				{% if request.user.admin or request.user.manager or request.user.employee %}
+				<option name="parent" value="parent">parent</option>
+				{% endif %}
+				{% if request.user.admin or request.user.manager %}
+				<option name="employee" value="employee">employee</option>
+				{% endif %}
+				{% if request.user.admin %}
+				<option name="manager" value="manager">manager</option>
+				<option name="admin" value="admin">admin</option>
+				{% endif %}
+			</select>
+			<div class='row'>
+				<div class="col-6 float-left" >
+					<p class='lead'>Profile Information</p>
+					<hr/>
+
+					<div class="text-center form-group">
+						{{ form }}
+					</div>
+
+				</div>
+				<div class="col-6 text-center float-right" >
+					<div class='row'>
+						<div class="col-12 " >
+							<p class='lead'>Daycare</p>
+							<hr/>
+							<div class="text-center form-control">
+								{% for pk, choice in daycare.daycare.field.widget.choices %}
+								<label class="form-group" for="id_options_{{ forloop.counter0 }}">{{ choice }}<input type="checkbox" id="id_options_{{ forloop.counter0 }}" value="{{ pk }}" name="daycare" /></label>
+								{% endfor %} 
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class='row'>
+				<div class="col-6 text-center float-left" >
+					<p class='lead'>Address</p>
+					<hr/>
+					<div class="form-group">
+						{{ address }}
+					</div>
+				</div>
+				<div class="col-6 text-center float-right" >
+					<p class='lead' style='display:inline-block;'>Children</p> 
+					<button type="button" class='add-kid btn btn-success mx-auto text-center' style='display:inline-block;'>add child</button>
+					<hr/>
+					<div class="text-center add-kid-append form-group">
+						
+						{{ kid }}
+						
+					</div>
+				</div>
+			</div>
+			<div class='form-group'>
+				<div class='row'>
+					<button type='submit' class='col-4 registrationBtn btn btn-success mx-auto text-center'>Create User</button> 	
+				</div>
+			</div>
+			
+		</form>
+
+	</div>
+</div>
+{% endblock %}

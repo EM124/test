@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class='row'>
+	<div class="col-lg-12" >
+	<div class="form-group">
+		<form  method='POST' action='/daycare/delete-daycare/{{daycare_object.id}}/'  > {% csrf_token %}
+			<button type='submit' class='col-3 btn btn-success mx-auto text-center float-right' style="margin-bottom: 20px;">Delete Daycare</button> 
+		</form>
+	</div>
+</div>
+</div>
+<div class='row'>
+	<div class="col-lg-12" >
+		<p class='lead'> {{daycare_object.name}} </p>
+			<p class='lead text-center'>Update Daycare</p>
+			<hr/>
+		<form  method='POST' action='/daycare/update/{{daycare_object.id}}/' > {% csrf_token %}
+			<div class='row'>
+				<div class="col-6">
+					<p class='lead'>Daycare Information</p>
+					<hr/>
+
+					<div class="text-center form-group">
+						{{ daycare }}
+					</div>
+				</div>
+				<div class="col-6" >
+					<p class='lead'>Address</p>
+					<hr/>
+					<div class="form-group text-center">
+						{{ address }}
+					</div>
+				</div>
+			</div>
+			<div class='row'>
+				<div class='col-lg-12'>
+					<p class='lead'>Bank Account</p>
+					<hr/>
+					<div class='row'>
+						<div class='col-lg-4'>
+							{{bank.bank_title}}
+						</div>
+						<div class='col-lg-4'>
+							{{bank.checking_amount}}
+						</div>
+						<div class='col-lg-4'>
+							{{bank.credit_amount}}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class='row'>
+			<div class="col-lg-6" >
+					<div class='row'>
+						<div class="col-lg-9">
+							<p class='lead'>Unique Company taxes</p>
+						</div>
+						<div class="col-lg-3">
+							<button type='button' class='add-unique-company-tax btn btn-success'>add tax</button> 
+						</div>
+					</div>
+					<hr/>
+					<div class="form-group">
+						<div class='unique_company_taxes'>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6" >
+					<div class='row'>
+						<div class="col-lg-9">
+							<p class='lead'>Unique Employee Taxes</p>
+						</div>
+						<div class="col-lg-3">
+							<button type='button' class='add-unique-employee-tax btn btn-success'>add tax</button> 
+						</div>
+					</div>
+					<hr/>
+					<div class="form-group">
+						<div class='unique_employee_taxes'>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class='row'>
+			<div class="col-lg-6" >
+					<div class='row'>
+						<div class="col-lg-9">
+							<p class='lead'>Global Company taxes</p>
+						</div>
+						<div class="col-lg-3">
+							<button type='button' class='add-global-company-tax btn btn-success'>add tax</button> 
+						</div>
+					</div>
+					<hr/>
+					<div class="form-group">
+						<div class='global_company_taxes'>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6" >
+					<div class='row'>
+						<div class="col-lg-9">
+							<p class='lead'>Global Employee Taxes</p>
+						</div>
+						<div class="col-lg-3">
+							<button type='button' class='add-global-employee-tax btn btn-success'>add tax</button> 
+						</div>
+					</div>
+					<hr/>
+					<div class="form-group">
+						<div class='global_employee_taxes'>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class='form-group'>
+				<div class='row'>
+					<button type='submit' class='col-4 create_daycare btn btn-success mx-auto text-center'>Update Daycare</button> 	
+				</div>
+			</div>
+			
+		</form>
+
+	</div>
+</div>
+
+{% endblock %}

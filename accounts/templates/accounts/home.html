@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class='row'>
+	<div class='col-6'>
+		<form method='POST' action='/home/'> {% csrf_token %}
+			<p class='lead'>Log Your Hours</p>
+			<hr/>
+			<div class='row'>
+				<div class='col-6'>
+					{{ worklog.date.label }}
+					{{ worklog.date }}
+				</div>
+				<div class='col-6'>
+					{{ worklog.hours.label }}
+					{{ worklog.hours }}
+				</div>
+			</div>
+			<button type='submit' class='form-control col-12 btn btn-success mx-auto text-center' style="margin-top:10px;">Log Hours</button>
+		</form>
+	</div>
+	<div class='col-6'>
+		<table class='table-bordered'>  
+			<thead>
+				<tr>
+					{% for dates in week_dates %}
+					<th scope="col">{{dates}}</th>
+					{% endfor %}
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					{% for dates in week_dates %} 
+						{% for hour in hours %}
+							{% if dates == hour.time.date%}
+								<td>{{ hour.hours }}</td>
+							{% else %}
+							
+							{% endif %}
+						{% endfor %}
+					{% endfor %}
+				</tr>
+			</tbody>	
+		</table>
+	</div>
+</div>
+{% endblock %}
